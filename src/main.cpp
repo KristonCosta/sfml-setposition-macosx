@@ -7,19 +7,21 @@ class SFMLBug
 {
     const int WIDTH = 1280;
     const int HEIGHT = 800;
-    const uint64_t tick_rate = 100;
+    const uint64_t tick_rate = 10;
     sf::Clock clock;
     sf::Window window;
     uint64_t m_dt;
     uint64_t m_prev;
     uint64_t m_curr;
+    sf::String* m;
 
   public:
     SFMLBug()
     {
-        window.create(
+    	m = new sf::String("SFMLBug");
+	window.create(
             sf::VideoMode(WIDTH, HEIGHT),
-            "SFMLBug",
+            *m,
             sf::Style::Default);
         m_dt = m_prev = m_curr = 0;
     }
@@ -33,6 +35,7 @@ class SFMLBug
     {
         bool exitMainLoop = false;
         sf::Event event;
+
         while (!exitMainLoop)
         {
             while (window.pollEvent(event))
@@ -49,8 +52,8 @@ class SFMLBug
             if (m_dt > tick_rate)
             {
                 m_dt -= tick_rate;
-                print_vector2i("Previous time: ", sf::Mouse::getPosition(window));
-                sf::Mouse::setPosition(sf::Vector2i(10, 10), window);
+                print_vector2i("Previous position: ", sf::Mouse::getPosition(window));
+                sf::Mouse::setPosition(sf::Vector2i(10, 10));
                 print_vector2i("Updated position: ", sf::Mouse::getPosition(window));
             }
         }
